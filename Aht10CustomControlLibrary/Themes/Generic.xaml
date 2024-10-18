@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <FontFamily x:Key="Digital-7">pack://application:,,,/Aht10CustomControlLibrary;component/Fonts/#digital-7</FontFamily>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Aht10CustomControlLibrary;component/CustomControls/BatteryIndicator/BatteryIndicatorControlTheme.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="WpfAht10Client.Views.PlotData.UCPlotData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             xmlns:viewModels="clr-namespace:WpfAht10Client.ViewModels"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:converters="clr-namespace:WpfAht10Client.Views.PlotData.Converters"
+             xmlns:plot="clr-namespace:WpfAht10Client.Views.PlotData"
+             xmlns:wpf="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+             d:DataContext="{d:DesignInstance Type=viewModels:PlottingViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:DoubleToAxisDoubleConverter x:Key="DoubleToAxisDoubleConv"/>
+    </UserControl.Resources>
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding LoadMetrologicalDataCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.05*" />
+            <RowDefinition Height="0.9*" />
+            <RowDefinition Height="0.05*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.05*" />
+            <ColumnDefinition Width="0.9*" />
+            <ColumnDefinition Width="0.05*" />
+        </Grid.ColumnDefinitions>
+        <!-- <Plot -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <wpf:WpfPlot x:Name="plot"/>
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0">
+                <Button x:Name="btnSaveDbImg" Width="150" Height="30" Content="Send Image to DataBase" Click="btnSaveDbImg_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="WpfAht10Client.Views.MeasurementData.UCMeasurementData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfAht10Client.Views.MeasurementData"
+             xmlns:models="clr-namespace:WpfAht10Client.Models"
+             mc:Ignorable="d" 
+             xmlns:measurementData="clr-namespace:WpfAht10Client.Views.MeasurementData"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UcMeasurementDataTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}"
+                    SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Image" Width="*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type models:MeasurementModel}">
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <Image Width="80" Height="50" Source="{Binding MeasurementImage, Converter={StaticResource ByteArrayToBitmapSourceConv}}"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Date" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type models:MeasurementModel}">
+                            <Grid>
+                                <TextBlock Text="{Binding MeasurementDate, StringFormat='MM/dd/yyyy'}" HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Margin="0, 5" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MetrologicalCount" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type models:MeasurementModel}">
+                            <Grid>
+                                <TextBlock Text="{Binding MetrologicalCount}" HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Margin="0, 5" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
