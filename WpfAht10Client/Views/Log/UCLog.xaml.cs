@@ -1,7 +1,9 @@
 ﻿
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using WpfAht10Client.ViewModels;
 
 namespace WpfAht10Client.Views.Log
 {
@@ -35,6 +37,11 @@ namespace WpfAht10Client.Views.Log
         public UCLog()
         {
             InitializeComponent();
+
+            if (App.ServiceProvider != null)
+            {
+                DataContext = App.ServiceProvider.GetService<LoginViewModel>();
+            }
         }
     }
 }

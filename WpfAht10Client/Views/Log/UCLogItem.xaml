@@ -18,11 +18,14 @@
             <Grid Margin="0,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding LogLevel, Converter={StaticResource LogStatusToTitleConv}}"
-                           Foreground="{Binding LogLevel, Converter={StaticResource LogStatusToForegroundConv}}"/>
-                <TextBlock Grid.Column="1" Text="{Binding Message, RelativeSource={RelativeSource AncestorType=local:UCLogItem}}"/>
+                           Foreground="{Binding LogLevel, Converter={StaticResource LogStatusToForegroundConv}}"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding Time, StringFormat='{}{0:h:mm tt   dd/MM/yyyy}'}"/>
+                <TextBlock Grid.Column="2" Text="{Binding Message, RelativeSource={RelativeSource AncestorType=local:UCLogItem}}"/>
             </Grid>
         </Grid>
     </Grid>

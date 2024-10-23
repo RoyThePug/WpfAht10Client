@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
+using Aht10.Domain;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using WpfAht10Client.Common;
@@ -29,7 +30,7 @@ public class MeasurementService : IMeasurementService
 
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 
-        _hubConnection = new HubConnectionBuilder().WithUrl("http://192.168.0.47:8089/connectionservice")
+        _hubConnection = new HubConnectionBuilder().WithUrl($"{Constants.Url}/connectionservice")
                                                    .WithAutomaticReconnect()
                                                    .Build();
 
@@ -79,6 +80,21 @@ public class MeasurementService : IMeasurementService
             await _hubConnection.StartAsync();
 
             return _hubConnection.ConnectionId != null;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+
+    public async Task<bool> CloseAsync()
+    {
+        try
+        {
+            await _hubConnection.StopAsync();
+
+            return !(_hubConnection.ConnectionId == null);
         }
         catch (Exception)
         {

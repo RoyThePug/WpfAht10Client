@@ -29,9 +29,10 @@ namespace WpfAht10Client
             //     ClientCertificateOptions = ClientCertificateOption.Manual,
             //     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             // });
-            services.AddTransient<IMeasurementService, MeasurementService>();
+            services.AddSingleton<IMeasurementService, MeasurementService>();
             services.AddTransient<IPlottingDataService, PlottingDataService>();
             services.AddSingleton<PlottingViewModel>();
+            services.AddSingleton<LoginViewModel>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<MainWindow>();
         }

@@ -1,7 +1,5 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using WpfAht10Client.Views.MeasurementData;
 
 namespace WpfAht10Client.Views.Log
 {
@@ -23,6 +21,7 @@ namespace WpfAht10Client.Views.Log
         public UCLogItem()
         {
             InitializeComponent();
+           
         }
     }
 }

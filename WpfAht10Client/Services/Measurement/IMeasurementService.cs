@@ -17,4 +17,6 @@ public interface IMeasurementService
     public Task<IEnumerable<MeasurementModel>> GetMeasurementDataAsync();
 
     public Task<bool> ConnectAsync();
+
+    public Task<bool> CloseAsync();
 }

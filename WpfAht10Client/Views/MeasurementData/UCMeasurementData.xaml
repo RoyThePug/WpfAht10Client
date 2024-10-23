@@ -17,7 +17,7 @@
     </UserControl.Resources>
     <Grid>
         <DataGrid x:Name="dataGrid" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}"
-                    SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}">
+                  SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}">                    
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Image" Width="*" >
                     <DataGridTemplateColumn.CellTemplate>
@@ -28,7 +28,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Date" Width="*">
+                <DataGridTemplateColumn Header="Date" Width="*">                
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type models:MeasurementModel}">
                             <Grid>
@@ -36,7 +36,7 @@
                                            VerticalAlignment="Center"
                                            Margin="0, 5" />
                             </Grid>
-                        </DataTemplate>
+                        </DataTemplate>                      
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="MetrologicalCount" Width="*">

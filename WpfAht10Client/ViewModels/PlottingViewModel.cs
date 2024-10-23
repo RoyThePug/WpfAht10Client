@@ -3,6 +3,7 @@ using System.Text.Json;
 using Aht10.Domain.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using WpfAht10Client.Common;
 using WpfAht10Client.Models;
 using WpfAht10Client.Services.Measurement;
 
@@ -35,6 +36,8 @@ public partial class PlottingViewModel : ObservableObject
     {
         _measurementService = measurementService ?? throw new ArgumentNullException(nameof(measurementService));
 
+        _measurementService.OnReceiveData += MetereologicalReceiveDataHandler;
+
         _plottingDataService = plottingDataService ?? throw new ArgumentNullException(nameof(plottingDataService));
 
         MeteorologicalSource = new ObservableCollection<PlotMeteorologicalModel>();
@@ -55,17 +58,7 @@ public partial class PlottingViewModel : ObservableObject
                 {
                     var metrologicalSource = (await _measurementService.GetMeteorologicalDataByDateAsync(SelectedMeasurement.Id)).ToList();
 
-                    MinTemperature = metrologicalSource.Min(x => x.Temperature);
-
-                    MaxTemperature = metrologicalSource.Max(x => x.Temperature);
-
-                    MinMeasurementDate = metrologicalSource.Min(x => x.MeteorologicalTime);
-
-                    MaxMeasurementDate = metrologicalSource.Max(x => x.MeteorologicalTime);
-
-                    TemperatureDataSource = metrologicalSource.Select(x => (double)x.Temperature).ToArray();
-
-                    DatetimeDataSource = metrologicalSource.Select(x => x.MeteorologicalTime).ToArray();
+                    UpdatePlottingData(metrologicalSource);
                 }
             }
         }
@@ -96,6 +89,37 @@ public partial class PlottingViewModel : ObservableObject
         {
 
         }
+    }
+
+    #endregion
+
+    #region Methods
+
+    private void UpdatePlottingData(IEnumerable<MeteorologicalModel> metrologicalSource)
+    {
+        if (metrologicalSource != null)
+        {
+            MinTemperature = metrologicalSource.Min(x => x.Temperature);
+
+            MaxTemperature = metrologicalSource.Max(x => x.Temperature);
+
+            MinMeasurementDate = metrologicalSource.Min(x => x.MeteorologicalTime);
+
+            MaxMeasurementDate = metrologicalSource.Max(x => x.MeteorologicalTime);
+
+            TemperatureDataSource = metrologicalSource.Select(x => (double)x.Temperature).ToArray();
+
+            DatetimeDataSource = metrologicalSource.Select(x => x.MeteorologicalTime).ToArray();
+        }
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    private void MetereologicalReceiveDataHandler(object? sender, MeteorologicalEventArgs e)
+    {
+        UpdatePlottingData(e.Data);
     }
 
     #endregion

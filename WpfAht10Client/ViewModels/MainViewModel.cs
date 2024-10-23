@@ -15,6 +15,7 @@ public partial class MainViewModel : ObservableObject
 
     private readonly IMeasurementService _measurementService;
     private readonly object _itemsLock;
+    private readonly LoginViewModel _loginViewModel;
 
     #endregion
 
@@ -29,15 +30,13 @@ public partial class MainViewModel : ObservableObject
 
     public ObservableCollection<MeasurementModel> MeasurementSource { get; }
 
-    public ObservableCollection<LogModel> LogSource { get; }
-
     [ObservableProperty] public MeasurementModel selectedMeasurement;
 
     [ObservableProperty] public double batteryCapacity;
 
     #endregion
 
-    public MainViewModel(IMeasurementService measurementService)
+    public MainViewModel(IMeasurementService measurementService, LoginViewModel loginViewModel)
     {
         _measurementService = measurementService ?? throw new ArgumentNullException(nameof(measurementService));
 
@@ -47,11 +46,11 @@ public partial class MainViewModel : ObservableObject
 
         _itemsLock = new object();
 
+        _loginViewModel = loginViewModel ?? throw new ArgumentNullException(nameof(loginViewModel));
+
         MeteorologicalSource = new ObservableCollection<MeteorologicalModel>();
 
         MeasurementSource = new ObservableCollection<MeasurementModel>();
-
-        LogSource = new ObservableCollection<LogModel>();
 
         BindingOperations.EnableCollectionSynchronization(MeasurementSource, _itemsLock);
         BindingOperations.EnableCollectionSynchronization(MeteorologicalSource, _itemsLock);
@@ -69,6 +68,26 @@ public partial class MainViewModel : ObservableObject
             IsConnected = await _measurementService.ConnectAsync();
 
             OnPropertyChanged(nameof(IsConnected));
+
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, $"Connected to Server"));
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
+    }
+
+
+    [RelayCommand]
+    public async Task DisconnectAsync()
+    {
+        try
+        {
+            IsConnected = await _measurementService.CloseAsync();
+
+            OnPropertyChanged(nameof(IsConnected));
+
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, $"Connection Closed"));
         }
         catch (Exception)
         {
@@ -83,11 +102,11 @@ public partial class MainViewModel : ObservableObject
         {
             await GetMetrologicalSourceByDateAsync();
 
-            LogSource.Add(new LogModel(LogLevel.Success, "metrological data received"));
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "metrological data received"));
         }
         catch (Exception)
         {
-            LogSource.Add(new LogModel(LogLevel.Success, "error metrological data received"));
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "error metrological data received"));
         }
     }
 
@@ -97,6 +116,8 @@ public partial class MainViewModel : ObservableObject
         try
         {
             var data = await _measurementService.GetMeasurementDataAsync();
+
+            var activeMeasurement = SelectedMeasurement;
 
             if (MeasurementSource.Any())
             {
@@ -108,13 +129,22 @@ public partial class MainViewModel : ObservableObject
                 MeasurementSource.Add(item);
             }
 
-            SelectedMeasurement = MeasurementSource.Last();
+            if (activeMeasurement is null)
+            {
+                SelectedMeasurement = MeasurementSource.Last();
 
-            LogSource.Add(new LogModel(LogLevel.Success, "measurement data received"));
+                _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "measurement data received"));
+            }
+            else
+            {
+                SelectedMeasurement = activeMeasurement;
+            }
+
+            OnPropertyChanged(nameof(SelectedMeasurement));
         }
         catch (Exception)
         {
-            LogSource.Add(new LogModel(LogLevel.Success, "error measurement data received"));
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "error measurement data received"));
         }
     }
 
@@ -136,6 +166,13 @@ public partial class MainViewModel : ObservableObject
     {
         BatteryCapacity = new Random().Next(0, 100);
 
+        return Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    public Task TestAsync()
+    {
+        SelectedMeasurement = MeasurementSource.FirstOrDefault();
         return Task.CompletedTask;
     }
 
@@ -163,12 +200,12 @@ public partial class MainViewModel : ObservableObject
 
                 MeteorologicalCount = MeteorologicalSource.Count;
 
-                LogSource.Add(new LogModel(LogLevel.Success, "metrological data by selected measurement received"));
+                _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "metrological data by selected measurement received"));
             }
         }
         catch (Exception)
         {
-            LogSource.Add(new LogModel(LogLevel.Error, "metrological data by selected measurement received"));
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Error, "metrological data by selected measurement received"));
         }
     }
 
@@ -191,6 +228,8 @@ public partial class MainViewModel : ObservableObject
             }
 
             MeteorologicalCount = MeteorologicalSource.Count;
+
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "metrological data received"));
         }
     }
 

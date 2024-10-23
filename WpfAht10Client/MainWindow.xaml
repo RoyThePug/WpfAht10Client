@@ -20,6 +20,7 @@
     <Window.Resources>
         <converters:RoutedPropertyChangedEventArgsToDataContextConverter x:Key="RoutedPropertyChangedEventArgsToDataContextConv"/>
         <converters:ByteArrayToBitmapSourceConverter x:Key="ByteArrayToBitmapSourceConv"/>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConv"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -36,8 +37,9 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <CheckBox IsEnabled="False" Content="Connected" VerticalAlignment="Center"
                         IsChecked="{Binding IsConnected, Mode=OneWay}" Margin="5,0" />
-                <Button Width="80" Height="30" Content="Connect" Command="{Binding ConnectCommand}" Margin="5,0" />
-                <Button Width="80" Height="30" Content="Disconnect" Margin="5,0" />
+                <Button Width="80" Height="30" Content="Connect" Command="{Binding ConnectCommand}" Margin="5,0"
+                        IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConv}}"/>
+                <Button Width="80" Height="30" Content="Disconnect" Margin="5,0" Command="{Binding DisconnectCommand}" />
                 <TextBlock Text="{Binding CurrentDate}" VerticalAlignment="Center" Margin="5,0" />
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
                     <TextBlock Text="Count: " />
@@ -48,15 +50,15 @@
                 <batteryindicator:BatteryIndicatorControl FontSize="16" Value="{Binding BatteryCapacity}" />
             </StackPanel>
             <!-- Data -->
-            <TabControl Grid.Row="1">
-                <!-- Metrological -->
-                <TabItem Header="Metrological">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="0.7*"/>
-                            <RowDefinition Height="5" />
-                            <RowDefinition Height="0.3*"/>
-                        </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.7*"/>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="0.3*"/>
+                </Grid.RowDefinitions>
+                <TabControl>
+                    <!-- Metrological -->
+                    <TabItem Header="Metrological">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.45*"/>
@@ -65,7 +67,7 @@
                             </Grid.ColumnDefinitions>
                             <!--UCMeasurementData-->
                             <measurementdata:UCMeasurementData ItemsSource="{Binding MeasurementSource}"
-                                     SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay}" Margin="5,10">
+                                     SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,10">
                                 <b:Interaction.Triggers>
                                     <b:EventTrigger EventName="Loaded">
                                         <b:InvokeCommandAction Command="{Binding LoadMeasurementDataCommand}" />
@@ -85,39 +87,41 @@
                                 </b:Interaction.Triggers>
                             </metrologicaldata:UcMetrologicalData>
                         </Grid>
-                        <GridSplitter  Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="Black" />
-                        <!--Log-->
-                        <log:UCLog Grid.Row="2" Margin="5,0" ItemsSource="{Binding LogSource}">
-                            <log:UCLog.ItemTemplate>
-                                <DataTemplate>
-                                    <log:UCLogItem Message="{Binding Message}"/>
-                                </DataTemplate>
-                            </log:UCLog.ItemTemplate>
-                        </log:UCLog>
-                    </Grid>
-                </TabItem>
-                <!-- Plotting -->
-                <TabItem Header="Plotting">
-                    <plotdata:UCPlotData x:Name="plot" XdataSource="{Binding DatetimeDataSource}"
+                    </TabItem>
+                    <!-- Plotting -->
+                    <TabItem Header="Plotting">
+                        <plotdata:UCPlotData x:Name="plot" 
+                                         XdataSource="{Binding DatetimeDataSource}"
                                          YdataSource="{Binding TemperatureDataSource}"
                                          SelectedMeasurement="{Binding DataContext.SelectedMeasurement.MeasurementDate, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type WpfAht10Client:MainWindow}}}" >
-                        <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="OnMeasurementDateChanged">
-                                <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}" EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="OnMeasurementDateChanged">
+                                    <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}" 
+                                                       EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
                                                        PassEventArgsToCommand="True"/>
-                            </b:EventTrigger>
-                            <b:EventTrigger EventName="Loaded">
-                                <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}"
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="Loaded">
+                                    <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}"
                                                        CommandParameter="{Binding SelectedMeasurement, ElementName=plot}" />
-                            </b:EventTrigger>
-                            <b:EventTrigger EventName="OnMeasurementImageUpdated">
-                                <b:InvokeCommandAction Command="{Binding UpdateMeasurementImageCommand}" EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="OnMeasurementImageUpdated">
+                                    <b:InvokeCommandAction Command="{Binding UpdateMeasurementImageCommand}" EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
                                                        PassEventArgsToCommand="True"/>
-                            </b:EventTrigger>
-                        </b:Interaction.Triggers>
-                    </plotdata:UCPlotData>
-                </TabItem>
-            </TabControl>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </plotdata:UCPlotData>
+                    </TabItem>
+                </TabControl>
+                <GridSplitter  Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="Black" />
+                <!--Log-->
+                <log:UCLog Grid.Row="2" Margin="5,0" ItemsSource="{Binding LogSource}">
+                    <log:UCLog.ItemTemplate>
+                        <DataTemplate>
+                            <log:UCLogItem Message="{Binding Message}"/>
+                        </DataTemplate>
+                    </log:UCLog.ItemTemplate>
+                </log:UCLog>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
