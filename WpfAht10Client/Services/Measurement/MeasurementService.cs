@@ -157,8 +157,8 @@ public class MeasurementService : IMeasurementService
 
             response.EnsureSuccessStatusCode();
 
-            //return await response.Content.ReadFromJsonAsync<IEnumerable<MeasurementModel>>();
-            return await client.GetFromJsonAsync<IEnumerable<MeasurementModel>>(Url + "/measurements");
+            return await response.Content.ReadFromJsonAsync<IEnumerable<MeasurementModel>>();
+          //  return await client.GetFromJsonAsync<IEnumerable<MeasurementModel>>(Url + "/measurements");
         }
         catch (Exception)
         {

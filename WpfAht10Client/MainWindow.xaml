@@ -14,13 +14,14 @@
         xmlns:metrologicaldata="clr-namespace:WpfAht10Client.Views.MetrologicalData"
         xmlns:plotdata="clr-namespace:WpfAht10Client.Views.PlotData" 
         xmlns:batteryindicator="clr-namespace:Aht10CustomControlLibrary.CustomControls.BatteryIndicator;assembly=Aht10CustomControlLibrary"
-        xmlns:measurementdata="clr-namespace:WpfAht10Client.Views.MeasurementData" xmlns:log="clr-namespace:WpfAht10Client.Views.Log"
+        xmlns:measurementdata="clr-namespace:WpfAht10Client.Views.MeasurementData" xmlns:log="clr-namespace:WpfAht10Client.Views.Log" xmlns:progressring="clr-namespace:Aht10CustomControlLibrary.CustomControls.ProgressRing;assembly=Aht10CustomControlLibrary"
         d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         Title="MainWindow" Height="750" Width="1250">
     <Window.Resources>
         <converters:RoutedPropertyChangedEventArgsToDataContextConverter x:Key="RoutedPropertyChangedEventArgsToDataContextConv"/>
         <converters:ByteArrayToBitmapSourceConverter x:Key="ByteArrayToBitmapSourceConv"/>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConv"/>
+        <BooleanToVisibilityConverter  x:Key="BoolToVisibilityConv"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -58,8 +59,13 @@
                 </Grid.RowDefinitions>
                 <TabControl>
                     <!-- Metrological -->
-                    <TabItem Header="Metrological">
-                        <Grid>
+                    <TabItem Header="Metrological" >
+                        <Grid Visibility="{Binding IsNotBusy, Converter={StaticResource BoolToVisibilityConv}}">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Loaded">
+                                    <b:InvokeCommandAction Command="{Binding TestCommand}" />
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.45*"/>
                                 <ColumnDefinition Width="5"/>
@@ -69,9 +75,6 @@
                             <measurementdata:UCMeasurementData ItemsSource="{Binding MeasurementSource}"
                                      SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,10">
                                 <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:InvokeCommandAction Command="{Binding LoadMeasurementDataCommand}" />
-                                    </b:EventTrigger>
                                     <b:EventTrigger EventName="SelectedChanged">
                                         <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}" />
                                     </b:EventTrigger>
@@ -79,12 +82,8 @@
                             </measurementdata:UCMeasurementData>
                             <GridSplitter  Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
                             <!--UcMetrologicalData-->
-                            <metrologicaldata:UcMetrologicalData Grid.Column="2" ItemsSource="{Binding MeteorologicalSource}" Margin="5,10">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:InvokeCommandAction Command="{Binding LoadMetrologicalDataCommand}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
+                            <metrologicaldata:UcMetrologicalData Grid.Column="2" ItemsSource="{Binding MeteorologicalSource}" 
+                                                                 Margin="5,10">                     
                             </metrologicaldata:UcMetrologicalData>
                         </Grid>
                     </TabItem>
@@ -123,5 +122,7 @@
                 </log:UCLog>
             </Grid>
         </Grid>
+        <!--ProgressRing-->
+        <progressring:ProgressRing Grid.Column="1" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConv}}"/>
     </Grid>
 </Window>
