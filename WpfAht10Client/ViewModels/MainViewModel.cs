@@ -25,14 +25,19 @@ public partial class MainViewModel : ObservableObject
 
     public string CurrentDate => DateTime.Now.Date.ToShortDateString();
 
-    [ObservableProperty] public int meteorologicalCount;
-    public ObservableCollection<MeteorologicalModel> MeteorologicalSource { get; }
+    public bool IsNotBusy => !IsBusy;
 
-    public ObservableCollection<MeasurementModel> MeasurementSource { get; }
+    [ObservableProperty] public bool isBusy;
+
+    [ObservableProperty] public int meteorologicalCount; 
 
     [ObservableProperty] public MeasurementModel selectedMeasurement;
 
     [ObservableProperty] public double batteryCapacity;
+
+    public ObservableCollection<MeteorologicalModel> MeteorologicalSource { get; }
+
+    public ObservableCollection<MeasurementModel> MeasurementSource { get; }
 
     #endregion
 
@@ -153,11 +158,23 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
             await GetMetrologicalSourceByDateAsync();
         }
         catch (Exception)
         {
             // ignored
+        }
+
+        finally
+        {
+            IsBusy = false;
         }
     }
 
@@ -170,10 +187,29 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public Task TestAsync()
+    public async Task TestAsync()
     {
-        SelectedMeasurement = MeasurementSource.FirstOrDefault();
-        return Task.CompletedTask;
+        try
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            OnPropertyChanged(nameof(IsNotBusy));
+
+            await LoadMetrologicalDataCommand.ExecuteAsync(null);
+
+            await LoadMeasurementDataCommand.ExecuteAsync(null);
+        }
+        finally
+        {
+            IsBusy = false;
+
+            OnPropertyChanged(nameof(IsNotBusy));
+        }
     }
 
     #endregion

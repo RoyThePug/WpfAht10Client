@@ -5,5 +5,6 @@
             <FontFamily x:Key="Digital-7">pack://application:,,,/Aht10CustomControlLibrary;component/Fonts/#digital-7</FontFamily>
         </ResourceDictionary>
         <ResourceDictionary Source="/Aht10CustomControlLibrary;component/CustomControls/BatteryIndicator/BatteryIndicatorControlTheme.xaml" />
+        <ResourceDictionary Source="/Aht10CustomControlLibrary;component/CustomControls/ProgressRing/ProgressRingTheme.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
