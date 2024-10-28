@@ -29,7 +29,7 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] public bool isBusy;
 
-    [ObservableProperty] public int meteorologicalCount; 
+    [ObservableProperty] public int meteorologicalCount;
 
     [ObservableProperty] public MeasurementModel selectedMeasurement;
 
@@ -137,14 +137,14 @@ public partial class MainViewModel : ObservableObject
             if (activeMeasurement is null)
             {
                 SelectedMeasurement = MeasurementSource.Last();
-
-                _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "measurement data received"));
             }
             else
             {
                 SelectedMeasurement = activeMeasurement;
             }
 
+            _loginViewModel.LogSource.Add(new LogModel(LogLevel.Success, "measurement data received"));
+            
             OnPropertyChanged(nameof(SelectedMeasurement));
         }
         catch (Exception)
