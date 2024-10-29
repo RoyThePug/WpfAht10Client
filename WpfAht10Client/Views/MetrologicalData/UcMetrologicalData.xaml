@@ -8,11 +8,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="UcMetrologicalDataTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="UcMetrologicalDataTheme.xaml" />
     </UserControl.Resources>
     <Grid>
         <DataGrid ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type metrologicalData:UcMetrologicalData}}}">

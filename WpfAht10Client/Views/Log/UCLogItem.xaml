@@ -24,8 +24,8 @@
                 <TextBlock Text="{Binding LogLevel, Converter={StaticResource LogStatusToTitleConv}}"
                            Foreground="{Binding LogLevel, Converter={StaticResource LogStatusToForegroundConv}}"
                            HorizontalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Text="{Binding Time, StringFormat='{}{0:h:mm tt   dd/MM/yyyy}'}"/>
-                <TextBlock Grid.Column="2" Text="{Binding Message, RelativeSource={RelativeSource AncestorType=local:UCLogItem}}"/>
+                <TextBlock Grid.Column="1" Text="{Binding Time, StringFormat='{}{0:h:mm tt   dd/MM/yyyy}'}" Foreground="White"/>
+                <TextBlock Grid.Column="2" Text="{Binding Message, RelativeSource={RelativeSource AncestorType=local:UCLogItem}}" Foreground="White"/>
             </Grid>
         </Grid>
     </Grid>

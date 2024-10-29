@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>    
+    </ResourceDictionary.MergedDictionaries>
+    
+    <SolidColorBrush x:Key="MainBackgroundBrush" Color="{StaticResource MainColor}"/>
+    <SolidColorBrush x:Key="MainPanelBackgroundBrush" Color="{StaticResource SubMainColor}"/>
+    <SolidColorBrush x:Key="PanelItemMainBackgroundBrush" Color="{StaticResource ItemMainColor}"/>
+    
+</ResourceDictionary>

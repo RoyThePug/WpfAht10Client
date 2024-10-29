@@ -19,7 +19,8 @@
                 <ControlTemplate TargetType="ItemsControl">
                     <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
                             Background="{TemplateBinding Background}">
-                        <ScrollViewer CanContentScroll="True" Padding="{TemplateBinding Padding}" Focusable="False">
+                        <ScrollViewer CanContentScroll="True" Padding="{TemplateBinding Padding}"
+                                      Focusable="False" VerticalScrollBarVisibility="Auto">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
