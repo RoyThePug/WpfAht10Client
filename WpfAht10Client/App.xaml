@@ -5,6 +5,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Aht10CustomControlLibrary;component/Themes/Button.xaml"/>
+                <ResourceDictionary Source="/Aht10CustomControlLibrary;component/Themes/TabControl.xaml"/>
+                <ResourceDictionary Source="/Aht10CustomControlLibrary;component/Themes/TabItem.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
     </Application.Resources>
