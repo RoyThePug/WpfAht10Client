@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Extensions.DependencyInjection;
 using ScottPlot;
 using WpfAht10Client.ViewModels;
-using Colors = ScottPlot.Colors;
+using Color = ScottPlot.Color;
 
 namespace WpfAht10Client.Views.PlotData;
 
@@ -99,8 +99,8 @@ public partial class UCPlotData
 
     public ICommand SendImageDbCommand
     {
-        get { return (ICommand)GetValue(SendImageDbCommandProperty); }
-        set { SetValue(SendImageDbCommandProperty, value); }
+        get => (ICommand)GetValue(SendImageDbCommandProperty);
+        set => SetValue(SendImageDbCommandProperty, value);
     }
 
     #endregion
@@ -117,7 +117,7 @@ public partial class UCPlotData
     }
 
     public static readonly RoutedEvent OnMeasurementImageUpdatedEvent =
-     EventManager.RegisterRoutedEvent(nameof(OnMeasurementImageUpdated), RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<byte[]>), typeof(UCPlotData));
+        EventManager.RegisterRoutedEvent(nameof(OnMeasurementImageUpdated), RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<byte[]>), typeof(UCPlotData));
 
     public event RoutedPropertyChangedEventHandler<byte[]> OnMeasurementImageUpdated
     {
@@ -135,17 +135,27 @@ public partial class UCPlotData
         {
             DataContext = App.ServiceProvider.GetService<PlottingViewModel>();
 
-            plot.Plot.FigureBackground = new() { Color = Colors.SteelBlue };
-            // plot.Plot.DataBackground = new() { Color = Colors.LightSkyBlue };
-            plot.Plot.Axes.DateTimeTicksBottom();
-
-            plot.Plot.RenderManager.RenderStarting += (s, e) =>
+            if (Application.Current.Resources["ItemMainColor"] is System.Windows.Media.Color color)
             {
-                Tick[] ticks = plot.Plot.Axes.Bottom.TickGenerator.Ticks;
+                Plot.Plot.FigureBackground = new() { Color = Color.FromColor(System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B)) };
+            }
+
+            if (Application.Current.Resources["DataBackgroundColor"] is System.Windows.Media.Color bgColor)
+            {
+                Plot.Plot.DataBackground = new() { Color = Color.FromColor(System.Drawing.Color.FromArgb(bgColor.A, bgColor.R, bgColor.G, bgColor.B)) };
+            }
+
+            Plot.Plot.Axes.DateTimeTicksBottom();
+            Plot.Plot.Axes.Color(Color.FromHex("#ffffff"));
+
+            Plot.Plot.RenderManager.RenderStarting += (s, e) =>
+            {
+                var ticks = Plot.Plot.Axes.Bottom.TickGenerator.Ticks;
+
                 for (int i = 0; i < ticks.Length; i++)
                 {
                     DateTime dt = DateTime.FromOADate(ticks[i].Position);
-                    string label = $"{dt:HH:mm}";
+                    var label = $"{dt:HH:mm}";
                     ticks[i] = new Tick(ticks[i].Position, label);
                 }
             };
@@ -161,17 +171,23 @@ public partial class UCPlotData
 
         if (xsource != null && ysource != null)
         {
-            plot.Plot.Clear();
-            var sp1 = plot.Plot.Add.Scatter(xsource, ysource);
-            sp1.Color = Colors.Salmon;
+            Plot.Plot.Clear();
+
+            var sp1 = Plot.Plot.Add.Scatter(xsource, ysource);
+
+            if (Application.Current.Resources["ControlSubColor"] is System.Windows.Media.Color color)
+            {
+                sp1.Color = Color.FromColor(System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B));
+            }
+
             sp1.LineWidth = 2;
             sp1.MarkerSize = 6;
-            plot.Refresh();
-            plot.Plot.Axes.AutoScaleX();
-            plot.Plot.Axes.AutoScaleY();
+            Plot.Refresh();
+            Plot.Plot.Axes.AutoScaleX();
+            Plot.Plot.Axes.AutoScaleY();
 
             _calculatedX = false;
-            _calculatedY = false;           
+            _calculatedY = false;
         }
     }
 
@@ -206,12 +222,12 @@ public partial class UCPlotData
 
     private void btnSaveDbImg_Click(object sender, RoutedEventArgs e)
     {
-        var actualWidth = Convert.ToInt32(plot.ActualWidth);
-        var actualHeight = Convert.ToInt32(plot.ActualHeight);
+        var actualWidth = Convert.ToInt32(Plot.ActualWidth);
+        var actualHeight = Convert.ToInt32(Plot.ActualHeight);
 
         if (actualWidth > 0 && actualHeight > 0)
         {
-            var imageBytes = plot.Plot.GetImageBytes(600, 400);
+            var imageBytes = Plot.Plot.GetImageBytes(600, 400);
 
             RaiseEvent(new RoutedPropertyChangedEventArgs<byte[]>(null, imageBytes, OnMeasurementImageUpdatedEvent));
         }

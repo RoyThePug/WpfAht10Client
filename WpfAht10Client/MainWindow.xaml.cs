@@ -1,10 +1,8 @@
-﻿
-using System.Windows;
-using WpfAht10Client.ViewModels;
+﻿using WpfAht10Client.ViewModels;
 
 namespace WpfAht10Client
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow 
     {
         public MainWindow(MainViewModel vm)
         {

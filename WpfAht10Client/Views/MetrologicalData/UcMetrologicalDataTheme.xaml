@@ -4,22 +4,8 @@
         <ResourceDictionary Source="pack://application:,,,/WpfAht10Client;component/Styles/Brushes.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
-    <Style TargetType="{x:Type DataGrid}">
-        <Setter Property="AutoGenerateColumns" Value="False"/>
-        <Setter Property="CanUserReorderColumns" Value="False"/>
-        <Setter Property="CanUserResizeColumns" Value="False"/>
-        <Setter Property="CanUserAddRows" Value="False"/>
-        <Setter Property="CanUserDeleteRows" Value="False"/>
-        <Setter Property="CanUserResizeRows" Value="False"/>
+    <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
         <Setter Property="Background" Value="{StaticResource PanelItemMainBackgroundBrush}"/>
-    </Style>
-    
-    <Style TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-    </Style>
-    
-    <Style TargetType="{x:Type DataGridRow}">
-        
     </Style>
     
 </ResourceDictionary>

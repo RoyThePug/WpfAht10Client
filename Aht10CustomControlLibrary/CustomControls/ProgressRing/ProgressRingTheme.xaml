@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Aht10CustomControlLibrary.CustomControls.ProgressRing">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Aht10CustomControlLibrary;component/Styles/Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <Style TargetType="{x:Type local:ProgressRing}">
         <Setter Property="Width" Value="120" />
         <Setter Property="Height" Value="120" />
@@ -10,7 +14,14 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="MinHeight" Value="20" />
         <Setter Property="MinWidth" Value="20" />
-        <Setter Property="Foreground" Value="Blue" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="{StaticResource ProgressMainColor}" Offset="0" />
+                    <GradientStop Color="{StaticResource ProgressSubColor}" Offset="1" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ProgressRing}">

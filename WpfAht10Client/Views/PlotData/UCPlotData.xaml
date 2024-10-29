@@ -6,14 +6,21 @@
              mc:Ignorable="d"
              xmlns:viewModels="clr-namespace:WpfAht10Client.ViewModels"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:converters="clr-namespace:WpfAht10Client.Views.PlotData.Converters"
-             xmlns:plot="clr-namespace:WpfAht10Client.Views.PlotData"
              xmlns:wpf="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
              d:DataContext="{d:DesignInstance Type=viewModels:PlottingViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <converters:DoubleToAxisDoubleConverter x:Key="DoubleToAxisDoubleConv"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Aht10CustomControlLibrary;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="/Styles/Colors.xaml" />
+                <ResourceDictionary>
+                    <SolidColorBrush x:Key="PlotBackgroundBrush" Color="{StaticResource ItemMainColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
+
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:InvokeCommandAction Command="{Binding LoadMetrologicalDataCommand}" />
@@ -33,12 +40,14 @@
         <!-- <Plot -->
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <wpf:WpfPlot x:Name="plot"/>
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0">
-                <Button x:Name="btnSaveDbImg" Width="150" Height="30" Content="Send Image to DataBase" Click="btnSaveDbImg_Click"/>
+            <Border ClipToBounds="True" CornerRadius="15" Background="{StaticResource PlotBackgroundBrush}">
+                <wpf:WpfPlot x:Name="Plot" Margin="10,10,10,0" />
+            </Border>
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,5,0">
+                <Button Width="150" Height="30" Content="Send Image to DataBase" Click="btnSaveDbImg_Click" />
             </StackPanel>
         </Grid>
     </Grid>

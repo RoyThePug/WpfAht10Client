@@ -20,6 +20,7 @@ public partial class PlottingViewModel : ObservableObject
 
     #region Properties
 
+    [ObservableProperty] public bool isBusy;
     [ObservableProperty] private double minTemperature;
     [ObservableProperty] private double maxTemperature;
     [ObservableProperty] private DateTime minMeasurementDate;
@@ -74,6 +75,13 @@ public partial class PlottingViewModel : ObservableObject
     {
         try
         {
+            if (IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
             if (param is byte[] source && SelectedMeasurement != null)
             {
                 var json = JsonSerializer.Serialize(new
@@ -88,6 +96,10 @@ public partial class PlottingViewModel : ObservableObject
         catch (Exception)
         {
 
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 

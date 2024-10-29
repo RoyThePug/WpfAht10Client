@@ -158,23 +158,11 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            if (IsBusy)
-            {
-                return;
-            }
-
-            IsBusy = true;
-
             await GetMetrologicalSourceByDateAsync();
         }
         catch (Exception)
         {
             // ignored
-        }
-
-        finally
-        {
-            IsBusy = false;
         }
     }
 
@@ -199,10 +187,10 @@ public partial class MainViewModel : ObservableObject
             IsBusy = true;
 
             OnPropertyChanged(nameof(IsNotBusy));
+            
+            await LoadMeasurementDataCommand.ExecuteAsync(null);
 
             await LoadMetrologicalDataCommand.ExecuteAsync(null);
-
-            await LoadMeasurementDataCommand.ExecuteAsync(null);
         }
         finally
         {
