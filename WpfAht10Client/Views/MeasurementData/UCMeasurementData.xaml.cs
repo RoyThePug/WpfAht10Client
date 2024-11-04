@@ -53,7 +53,7 @@ namespace WpfAht10Client.Views.MeasurementData
         {
             InitializeComponent();
 
-            dataGrid.SelectionChanged += DataGrid_SelectionChanged;
+            DataGrid.SelectionChanged += DataGrid_SelectionChanged;
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

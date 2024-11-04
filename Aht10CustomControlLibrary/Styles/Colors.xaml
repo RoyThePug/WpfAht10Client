@@ -9,5 +9,8 @@
     <Color x:Key="ControlForegroundColor">#FFFFFF</Color>
     <Color x:Key="ControlDisabledForegroundColor">#7C7F87</Color>
     <Color x:Key="ItemMainColor">#202230</Color>
-    
+    <Color x:Key="ScrollBackgroundColor">#2a2e3b</Color>
+    <Color x:Key="DataBackgroundColor">#1c2d4a</Color>
+    <Color x:Key="ProgressMainColor">#846cf9</Color>
+    <Color x:Key="ProgressSubColor">#846cf9</Color>
 </ResourceDictionary>

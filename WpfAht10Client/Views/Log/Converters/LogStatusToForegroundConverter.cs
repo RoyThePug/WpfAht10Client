@@ -11,7 +11,7 @@ namespace WpfAht10Client.Views.Log.Converters
         {
             if (value is LogLevel logLevel)
             {
-                return (logLevel is LogLevel.Success) ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2f5ebd")) :
+                return logLevel is LogLevel.Success ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7C7F87")) :
                     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#bd3030")); ;
             }
             return new SolidColorBrush(Colors.Black);

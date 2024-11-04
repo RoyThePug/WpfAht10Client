@@ -12,127 +12,164 @@
         xmlns:plotdata="clr-namespace:WpfAht10Client.Views.PlotData"
         xmlns:measurementdata="clr-namespace:WpfAht10Client.Views.MeasurementData" xmlns:log="clr-namespace:WpfAht10Client.Views.Log"
         xmlns:progressring="clr-namespace:Aht10CustomControlLibrary.CustomControls.ProgressRing;assembly=Aht10CustomControlLibrary"
+        xmlns:behaviors="clr-namespace:WpfAht10Client.Views.Behaviors"
         d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
-        Title="MainWindow" Height="800" Width="1250">
+        Title="MainWindow" Height="850" Width="1300">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Brushes.xaml" />
                 <ResourceDictionary>
                     <converters:RoutedPropertyChangedEventArgsToDataContextConverter x:Key="RoutedPropertyChangedEventArgsToDataContextConv" />
-                    <converters:ByteArrayToBitmapSourceConverter x:Key="ByteArrayToBitmapSourceConv" />
-                    <converters:InverseBooleanConverter x:Key="InverseBooleanConv" />
                     <BooleanToVisibilityConverter x:Key="BoolToVisibilityConv" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Background="{StaticResource MainBackgroundBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.05*" />
-            <RowDefinition Height="0.9*" />
-            <RowDefinition Height="0.05*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.8*" />
-            <ColumnDefinition Width="0.1*" />
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <!-- Menu -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                    <CheckBox IsEnabled="False" Content="Connected" VerticalAlignment="Center"
-                              IsChecked="{Binding IsConnected, Mode=OneWay}" Margin="5,0" />
-                    <Button Width="80" Height="30" Content="Connect" Command="{Binding ConnectCommand}" Margin="5,0"
-                            IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConv}}" />
-                    <Button Width="80" Height="30" Content="Disconnect" Margin="5,0" Command="{Binding DisconnectCommand}" />
-                    <TextBlock Text="{Binding CurrentDate}" VerticalAlignment="Center" Margin="5,0" />
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
-                        <TextBlock Text="Count: " />
-                        <TextBlock Text="{Binding MeteorologicalCount}" Margin="5,0" />
-                    </StackPanel>
-                </StackPanel>
-                <!-- Data -->
-                <Grid Grid.Row="1" Margin="0,15,0,0">
+    <Grid>
+        <Grid Background="{StaticResource MainBackgroundBrush}">
+            <b:Interaction.Behaviors>
+                <behaviors:ChangeBlurEffectBehavior Radius="5" KernelType="Gaussian" EnableEffect="{Binding ElementName=Progress, Path=IsVisible}" />
+            </b:Interaction.Behaviors>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.05*" />
+                <RowDefinition Height="0.9*" />
+                <RowDefinition Height="0.05*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="0.8*" />
+                <ColumnDefinition Width="0.1*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid Margin="10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.7*" />
-                        <RowDefinition Height="5" />
-                        <RowDefinition Height="0.3*" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TabControl Background="{StaticResource MainPanelBackgroundBrush}" BorderThickness="0">
-                        <!-- Metrological -->
-                        <TabItem Header="Metrological" >
-                            <Grid Visibility="{Binding IsNotBusy, Converter={StaticResource BoolToVisibilityConv}}"
-                                  Margin="0,20,0,0">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:InvokeCommandAction Command="{Binding TestCommand}" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.45*" />
-                                    <ColumnDefinition Width="5" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <!--UCMeasurementData-->
-                                <measurementdata:UCMeasurementData ItemsSource="{Binding MeasurementSource}"
-                                                                   SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,10">
+                    <!-- Menu -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <Button Width="80" Height="30" Content="Connect" Command="{Binding ConnectCommand}" Margin="5,0">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Width="80" Height="30" Content="Disconnect" Margin="5,0" Command="{Binding DisconnectCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                            <TextBlock Text="Total Metlological Count: " Foreground="White" FontSize="14" />
+                            <TextBlock Text="{Binding MeteorologicalCount}" Foreground="White" FontSize="14" Margin="5,0" />
+                        </StackPanel>
+                    </StackPanel>
+                    <!-- Data -->
+                    <Grid Grid.Row="1" Margin="0,15,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.7*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="0.3*" />
+                        </Grid.RowDefinitions>
+                        <TabControl Background="{StaticResource MainPanelBackgroundBrush}" BorderThickness="0">
+                            <!-- Metrological -->
+                            <TabItem Header="Metrological">
+                                <Grid Visibility="{Binding IsNotBusy, Converter={StaticResource BoolToVisibilityConv}}"
+                                      Margin="0,20,0,0">
                                     <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="SelectedChanged">
-                                            <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}" />
+                                        <b:EventTrigger EventName="Loaded">
+                                            <b:InvokeCommandAction Command="{Binding TestCommand}" />
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
-                                </measurementdata:UCMeasurementData>
-                                <GridSplitter Grid.Column="1" Width="3" Margin="0,5,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
-                                <!--UcMetrologicalData-->
-                                <metrologicaldata:UcMetrologicalData Grid.Column="2" ItemsSource="{Binding MeteorologicalSource}"
-                                                                     Margin="5,10">
-                                </metrologicaldata:UcMetrologicalData>
-                            </Grid>
-                        </TabItem>
-                        <!-- Plotting -->
-                        <TabItem Header="Plotting">
-                            <plotdata:UCPlotData x:Name="Plot" Margin="0,20,0,0"
-                                                 XdataSource="{Binding DatetimeDataSource}"
-                                                 YdataSource="{Binding TemperatureDataSource}"
-                                                 SelectedMeasurement="{Binding DataContext.SelectedMeasurement.MeasurementDate, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type wpfAht10Client:MainWindow}}}">
-                                <b:Interaction.Triggers>
-                                    <b:EventTrigger EventName="OnMeasurementDateChanged">
-                                        <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}"
-                                                               EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
-                                                               PassEventArgsToCommand="True" />
-                                    </b:EventTrigger>
-                                    <b:EventTrigger EventName="Loaded">
-                                        <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}"
-                                                               CommandParameter="{Binding SelectedMeasurement, ElementName=Plot}" />
-                                    </b:EventTrigger>
-                                    <b:EventTrigger EventName="OnMeasurementImageUpdated">
-                                        <b:InvokeCommandAction Command="{Binding UpdateMeasurementImageCommand}"
-                                                               EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
-                                                               PassEventArgsToCommand="True" />
-                                    </b:EventTrigger>
-                                </b:Interaction.Triggers>
-                            </plotdata:UCPlotData>
-                        </TabItem>
-                    </TabControl>
-                    <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="Black" />
-                    <!--Log-->
-                    <log:UCLog Grid.Row="2" Margin="5,0" ItemsSource="{Binding LogSource}">
-                        <log:UCLog.ItemTemplate>
-                            <DataTemplate>
-                                <log:UCLogItem Message="{Binding Message}" />
-                            </DataTemplate>
-                        </log:UCLog.ItemTemplate>
-                    </log:UCLog>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.4*" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="0.6*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--UCMeasurementData-->
+                                    <measurementdata:UCMeasurementData ItemsSource="{Binding MeasurementSource}"
+                                                                       SelectedItem="{Binding SelectedMeasurement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,10">
+                                        <b:Interaction.Triggers>
+                                            <b:EventTrigger EventName="SelectedChanged">
+                                                <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}" />
+                                            </b:EventTrigger>
+                                        </b:Interaction.Triggers>
+                                    </measurementdata:UCMeasurementData>
+                                    <GridSplitter Grid.Column="1" Width="3" Margin="0,5,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" />
+                                    <!--UcMetrologicalData-->
+                                    <metrologicaldata:UcMetrologicalData Grid.Column="2" ItemsSource="{Binding MeteorologicalSource}"
+                                                                         Margin="5,10">
+                                    </metrologicaldata:UcMetrologicalData>
+                                </Grid>
+                            </TabItem>
+                            <!-- Plotting -->
+                            <TabItem Header="Plotting">
+                                <plotdata:UCPlotData x:Name="Plot" Margin="0,20,0,0"
+                                                     XdataSource="{Binding DatetimeDataSource}"
+                                                     YdataSource="{Binding TemperatureDataSource}"
+                                                     SelectedMeasurement="{Binding DataContext.SelectedMeasurement.MeasurementDate, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type wpfAht10Client:MainWindow}}}">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="OnMeasurementDateChanged">
+                                            <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}"
+                                                                   EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="Loaded">
+                                            <b:InvokeCommandAction Command="{Binding ChangeSelectedMeasurementDateCommand}"
+                                                                   CommandParameter="{Binding SelectedMeasurement, ElementName=Plot}" />
+                                        </b:EventTrigger>
+                                        <b:EventTrigger EventName="OnMeasurementImageUpdated">
+                                            <b:InvokeCommandAction Command="{Binding UpdateMeasurementImageCommand}"
+                                                                   EventArgsConverter="{StaticResource RoutedPropertyChangedEventArgsToDataContextConv}"
+                                                                   PassEventArgsToCommand="True" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </plotdata:UCPlotData>
+                            </TabItem>
+                        </TabControl>
+                        <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Background="Black" />
+                        <!--Log-->
+                        <log:UCLog Grid.Row="2" Margin="5,10,5,0" ItemsSource="{Binding LogSource}">
+                            <log:UCLog.ItemTemplate>
+                                <DataTemplate>
+                                    <log:UCLogItem Message="{Binding Message}" />
+                                </DataTemplate>
+                            </log:UCLog.ItemTemplate>
+                        </log:UCLog>
+                    </Grid>
                 </Grid>
+                <Grid Margin="10" Background="Transparent" Visibility="{Binding ElementName=Progress, Path=IsVisible, Converter={StaticResource BoolToVisibilityConv}}" />
             </Grid>
-            <!--ProgressRing-->
-            <progressring:ProgressRing Grid.Column="1" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConv}}" />
         </Grid>
+        <!--ProgressRing-->
+        <progressring:ProgressRing x:Name="Progress">
+            <progressring:ProgressRing.Style>
+                <Style TargetType="{x:Type progressring:ProgressRing}">
+                    <Setter Property="Visibility" Value="Hidden" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Plot, Path=DataContext.IsBusy}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </progressring:ProgressRing.Style>
+        </progressring:ProgressRing>
     </Grid>
 </Window>

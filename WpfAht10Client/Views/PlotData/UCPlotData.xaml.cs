@@ -140,14 +140,18 @@ public partial class UCPlotData
                 Plot.Plot.FigureBackground = new() { Color = Color.FromColor(System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B)) };
             }
 
-            // plot.Plot.DataBackground = new() { Color = Colors.LightSkyBlue };
+            if (Application.Current.Resources["DataBackgroundColor"] is System.Windows.Media.Color bgColor)
+            {
+                Plot.Plot.DataBackground = new() { Color = Color.FromColor(System.Drawing.Color.FromArgb(bgColor.A, bgColor.R, bgColor.G, bgColor.B)) };
+            }
+
             Plot.Plot.Axes.DateTimeTicksBottom();
             Plot.Plot.Axes.Color(Color.FromHex("#ffffff"));
-            
+
             Plot.Plot.RenderManager.RenderStarting += (s, e) =>
             {
                 var ticks = Plot.Plot.Axes.Bottom.TickGenerator.Ticks;
-                
+
                 for (int i = 0; i < ticks.Length; i++)
                 {
                     DateTime dt = DateTime.FromOADate(ticks[i].Position);
