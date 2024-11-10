@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aht10CustomControlLibrary",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aht10.Domain", "Aht10.Domain\Aht10.Domain.csproj", "{DA73A4F3-10F4-4DB2-9FB5-0E91F7A1A1DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests", "UITests\UITests.csproj", "{21D934A0-A918-4B78-8559-96EC700FBD4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DA73A4F3-10F4-4DB2-9FB5-0E91F7A1A1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA73A4F3-10F4-4DB2-9FB5-0E91F7A1A1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA73A4F3-10F4-4DB2-9FB5-0E91F7A1A1DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21D934A0-A918-4B78-8559-96EC700FBD4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21D934A0-A918-4B78-8559-96EC700FBD4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21D934A0-A918-4B78-8559-96EC700FBD4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21D934A0-A918-4B78-8559-96EC700FBD4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -49,7 +49,8 @@
                     </Grid.RowDefinitions>
                     <!-- Menu -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <Button Width="80" Height="30" Content="Connect" Command="{Binding ConnectCommand}" Margin="5,0">
+                        <Button AutomationProperties.AutomationId="ConnectBtn"
+                                Width="80" Height="30" Content="Connect" Command="{Binding ConnectCommand}" Margin="5,0">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                                     <Setter Property="Visibility" Value="Visible" />
@@ -61,7 +62,8 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Width="80" Height="30" Content="Disconnect" Margin="5,0" Command="{Binding DisconnectCommand}">
+                        <Button AutomationProperties.AutomationId="DisconnectBtn"
+                                Width="80" Height="30" Content="Disconnect" Margin="5,0" Command="{Binding DisconnectCommand}">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -117,7 +119,7 @@
                                 </Grid>
                             </TabItem>
                             <!-- Plotting -->
-                            <TabItem Header="Plotting">
+                            <TabItem Header="Plotting" AutomationProperties.AutomationId="Plotting">
                                 <plotdata:UCPlotData x:Name="Plot" Margin="0,20,0,0"
                                                      XdataSource="{Binding DatetimeDataSource}"
                                                      YdataSource="{Binding TemperatureDataSource}"
@@ -156,7 +158,7 @@
             </Grid>
         </Grid>
         <!--ProgressRing-->
-        <progressring:ProgressRing x:Name="Progress">
+        <progressring:ProgressRing x:Name="Progress" AutomationProperties.AutomationId="Progress">
             <progressring:ProgressRing.Style>
                 <Style TargetType="{x:Type progressring:ProgressRing}">
                     <Setter Property="Visibility" Value="Hidden" />
