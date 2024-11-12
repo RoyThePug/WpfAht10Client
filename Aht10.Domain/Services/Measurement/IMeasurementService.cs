@@ -1,8 +1,8 @@
-﻿using Aht10.Domain.Common;
-using Aht10.Domain.Models;
+﻿using Aht10.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Aht10.Domain.CustomEventArgs;
 
 namespace Aht10.Domain.Services.Measurement
 {

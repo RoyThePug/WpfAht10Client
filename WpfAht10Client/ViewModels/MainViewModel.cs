@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
+using Aht10.Domain.CustomEventArgs;
 using Aht10.Domain.Enums;
+using Aht10.Domain.Models;
+using Aht10.Domain.Services.Measurement;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using WpfAht10Client.Common;
-using WpfAht10Client.Models;
-using WpfAht10Client.Services.Measurement;
 
 namespace WpfAht10Client.ViewModels;
 

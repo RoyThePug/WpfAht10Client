@@ -2,9 +2,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
-using WpfAht10Client.Common;
-using WpfAht10Client.Models;
-using WpfAht10Client.Services.Measurement;
+using Aht10.Domain.CustomEventArgs;
+using Aht10.Domain.Models;
+using Aht10.Domain.Services.Measurement;
 
 namespace WpfAht10Client.ViewModels
 {

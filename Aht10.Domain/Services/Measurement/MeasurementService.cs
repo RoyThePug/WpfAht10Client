@@ -2,11 +2,11 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
-using Aht10.Domain.Common;
 using Aht10.Domain.Models;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using Aht10.Domain.CustomEventArgs;
 using Aht10.Domain.Dto;
 
 namespace Aht10.Domain.Services.Measurement
@@ -159,8 +159,8 @@ namespace Aht10.Domain.Services.Measurement
 
                 response.EnsureSuccessStatusCode();
 
-                //return await response.Content.ReadFromJsonAsync<IEnumerable<MeasurementModel>>();
-                return await client.GetFromJsonAsync<IEnumerable<MeasurementModel>>(Url + "/measurements");
+                return await response.Content.ReadFromJsonAsync<IEnumerable<MeasurementModel>>();
+                //return await client.GetFromJsonAsync<IEnumerable<MeasurementModel>>(Url + "/measurements");
             }
             catch (Exception)
             {

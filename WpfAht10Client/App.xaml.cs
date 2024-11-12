@@ -1,7 +1,7 @@
 ﻿using Aht10.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using WpfAht10Client.Services.Measurement;
+using Aht10.Domain.Services.Measurement;
 using WpfAht10Client.ViewModels;
 
 namespace WpfAht10Client

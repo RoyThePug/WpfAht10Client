@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text.Json;
+using Aht10.Domain.CustomEventArgs;
+using Aht10.Domain.Models;
 using Aht10.Domain.Services;
+using Aht10.Domain.Services.Measurement;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using WpfAht10Client.Common;
-using WpfAht10Client.Models;
-using WpfAht10Client.Services.Measurement;
 
 namespace WpfAht10Client.ViewModels;
 
@@ -21,12 +21,12 @@ public partial class PlottingViewModel : ObservableObject
     #region Properties
 
     [ObservableProperty] public bool isBusy;
-    [ObservableProperty] private double minTemperature;
-    [ObservableProperty] private double maxTemperature;
-    [ObservableProperty] private DateTime minMeasurementDate;
-    [ObservableProperty] private DateTime maxMeasurementDate;
-    [ObservableProperty] private IEnumerable<double> temperatureDataSource;
-    [ObservableProperty] private DateTime[] datetimeDataSource;
+    [ObservableProperty] private double _minTemperature;
+    [ObservableProperty] private double _maxTemperature;
+    [ObservableProperty] private DateTime _minMeasurementDate;
+    [ObservableProperty] private DateTime _maxMeasurementDate;
+    [ObservableProperty] private IEnumerable<double> _temperatureDataSource;
+    [ObservableProperty] private DateTime[] _datetimeDataSource;
     [ObservableProperty] public MeasurementModel selectedMeasurement;
 
     public ObservableCollection<PlotMeteorologicalModel> MeteorologicalSource { get; }
