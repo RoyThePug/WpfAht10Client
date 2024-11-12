@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Aht10.Domain.Common
+namespace Aht10.Domain.CustomEventArgs
 {
     public class MeteorologicalEventArgs : EventArgs
     {

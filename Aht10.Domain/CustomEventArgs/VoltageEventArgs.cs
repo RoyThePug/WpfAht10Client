@@ -1,5 +1,5 @@
 ﻿
-namespace Aht10.Domain.Common
+namespace Aht10.Domain.CustomEventArgs
 {
     public class VoltageEventArgs
     {

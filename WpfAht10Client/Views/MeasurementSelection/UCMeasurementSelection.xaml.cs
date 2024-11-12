@@ -2,63 +2,64 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfAht10Client.Views.MeasurementSelection;
-
-public partial class UCMeasurementSelection
+namespace WpfAht10Client.Views.MeasurementSelection
 {
-    #region Dependency Properties
-
-    public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-        nameof(ItemsSource), typeof(IEnumerable), typeof(UCMeasurementSelection), new PropertyMetadata(default(IEnumerable)));
-
-    public IEnumerable ItemsSource
+    public partial class UCMeasurementSelection
     {
-        get => (IEnumerable) GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
+        #region Dependency Properties
 
-    public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
-        nameof(SelectedItem), typeof(object), typeof(UCMeasurementSelection), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+            nameof(ItemsSource), typeof(IEnumerable), typeof(UCMeasurementSelection), new PropertyMetadata(default(IEnumerable)));
 
-    public object SelectedItem
-    {
-        get => GetValue(SelectedItemProperty);
-        set => SetValue(SelectedItemProperty, value);
-    }
+        public IEnumerable ItemsSource
+        {
+            get => (IEnumerable) GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
 
-    public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-        nameof(ItemTemplate), typeof(DataTemplate), typeof(UCMeasurementSelection), new PropertyMetadata(default(DataTemplate)));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+            nameof(SelectedItem), typeof(object), typeof(UCMeasurementSelection), new PropertyMetadata(default(object)));
 
-    public DataTemplate ItemTemplate
-    {
-        get => (DataTemplate) GetValue(ItemTemplateProperty);
-        set => SetValue(ItemTemplateProperty, value);
-    }
+        public object SelectedItem
+        {
+            get => GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
+        }
 
-    #endregion
+        public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
+            nameof(ItemTemplate), typeof(DataTemplate), typeof(UCMeasurementSelection), new PropertyMetadata(default(DataTemplate)));
 
-    #region Routed Events
+        public DataTemplate ItemTemplate
+        {
+            get => (DataTemplate) GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
+        }
 
-    public static readonly RoutedEvent SelectedChangedEvent =
-        EventManager.RegisterRoutedEvent(nameof(SelectedChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(UCMeasurementSelection));
+        #endregion
 
-    public event RoutedEventHandler SelectedChanged
-    {
-        add => AddHandler(SelectedChangedEvent, value);
-        remove => RemoveHandler(SelectedChangedEvent, value);
-    }
+        #region Routed Events
 
-    #endregion
+        public static readonly RoutedEvent SelectedChangedEvent =
+            EventManager.RegisterRoutedEvent(nameof(SelectedChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(UCMeasurementSelection));
 
-    public UCMeasurementSelection()
-    {
-        InitializeComponent();
+        public event RoutedEventHandler SelectedChanged
+        {
+            add => AddHandler(SelectedChangedEvent, value);
+            remove => RemoveHandler(SelectedChangedEvent, value);
+        }
 
-        SelectionDateCmbx.SelectionChanged += SelectionDateCmbxOnSelectionChanged;
-    }
+        #endregion
 
-    private void SelectionDateCmbxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        RaiseEvent(new RoutedEventArgs(SelectedChangedEvent));
+        public UCMeasurementSelection()
+        {
+            InitializeComponent();
+
+            SelectionDateCmbx.SelectionChanged += SelectionDateCmbxOnSelectionChanged;
+        }
+
+        private void SelectionDateCmbxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(SelectedChangedEvent));
+        }
     }
 }

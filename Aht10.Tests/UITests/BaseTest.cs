@@ -3,7 +3,7 @@ using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 
-namespace UITests;
+namespace Aht10.Tests.UITests;
 
 public class BaseTest
 {
@@ -33,7 +33,7 @@ public class BaseTest
     {
         var wait = new DefaultWait<WindowsDriver<WindowsElement>>(Session)
         {
-            Timeout = TimeSpan.FromSeconds(10)
+            Timeout = TimeSpan.FromSeconds(15)
         };
 
         wait.Until(d =>

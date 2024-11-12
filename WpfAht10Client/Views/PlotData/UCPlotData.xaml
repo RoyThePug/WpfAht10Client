@@ -48,7 +48,8 @@
                              Margin="10,10,10,0" />
             </Border>
             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,5,0">
-                <Button Width="150" Height="30" Content="Send Image to DataBase" Click="btnSaveDbImg_Click" />
+                <Button Width="150" Height="30" AutomationProperties.AutomationId="SaveImageBtn"
+                        Content="Send Image to DataBase" Click="btnSaveDbImg_Click" />
             </StackPanel>
         </Grid>
     </Grid>

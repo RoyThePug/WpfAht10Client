@@ -3,16 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:models="clr-namespace:WpfAht10Client.Models"
              xmlns:metrologicalData="clr-namespace:WpfAht10Client.Views.MetrologicalData"
+             xmlns:models="clr-namespace:Aht10.Domain.Models;assembly=Aht10.Domain"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary Source="UcMetrologicalDataTheme.xaml" />
     </UserControl.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type metrologicalData:UcMetrologicalData}}}"
-                  Margin="5">
+        <DataGrid Margin="5" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type metrologicalData:UcMetrologicalData}}}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Time" Width="*">
                     <DataGridTemplateColumn.CellTemplate>

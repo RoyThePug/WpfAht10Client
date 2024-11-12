@@ -1,37 +1,38 @@
-﻿namespace Aht10CustomControlLibrary.CustomControls;
-
-public static class BooleanBoxes
+﻿namespace Aht10CustomControlLibrary.CustomControls
 {
-    /// <summary>
-    /// Gets a boxed representation for <see cref="bool"/> "true" value.
-    /// </summary>
-    public static readonly object TrueBox = true;
-
-    /// <summary>
-    /// Gets a boxed representation for <see cref="bool"/> "false" value.
-    /// </summary>
-    public static readonly object FalseBox = false;
-
-    /// <summary>
-    /// Returns a boxed representation for the specified Boolean value.
-    /// </summary>
-    /// <param name="value">The value to box.</param>
-    /// <returns>A boxed <see cref="bool"/> value.</returns>
-    public static object Box(bool value) => value ? TrueBox : FalseBox;
-
-    /// <summary>
-    /// Returns a boxed value for the specified nullable <paramref name="value"/>.
-    /// </summary>
-    /// <returns>A boxed nullable <see cref="bool"/> value.</returns>
-    public static object? Box(bool? value)
+    public static class BooleanBoxes
     {
-        if (value.HasValue)
-        {
-            return value.Value
-                ? TrueBox
-                : FalseBox;
-        }
+        /// <summary>
+        /// Gets a boxed representation for <see cref="bool"/> "true" value.
+        /// </summary>
+        public static readonly object TrueBox = true;
 
-        return null;
+        /// <summary>
+        /// Gets a boxed representation for <see cref="bool"/> "false" value.
+        /// </summary>
+        public static readonly object FalseBox = false;
+
+        /// <summary>
+        /// Returns a boxed representation for the specified Boolean value.
+        /// </summary>
+        /// <param name="value">The value to box.</param>
+        /// <returns>A boxed <see cref="bool"/> value.</returns>
+        public static object Box(bool value) => value ? TrueBox : FalseBox;
+
+        /// <summary>
+        /// Returns a boxed value for the specified nullable <paramref name="value"/>.
+        /// </summary>
+        /// <returns>A boxed nullable <see cref="bool"/> value.</returns>
+        public static object? Box(bool? value)
+        {
+            if (value.HasValue)
+            {
+                return value.Value
+                    ? TrueBox
+                    : FalseBox;
+            }
+
+            return null;
+        }
     }
 }
