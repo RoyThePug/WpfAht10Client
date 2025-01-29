@@ -1,33 +1,34 @@
 ﻿using System.Windows.Automation.Peers;
 
-namespace Aht10CustomControlLibrary.CustomControls;
-
-public class ProgressRingAutomationPeer : FrameworkElementAutomationPeer
+namespace Aht10CustomControlLibrary.CustomControls
 {
-    public ProgressRingAutomationPeer(ProgressRing.ProgressRing owner)
-        : base(owner)
+    public class ProgressRingAutomationPeer : FrameworkElementAutomationPeer
     {
-    }
-
-    protected override string GetClassNameCore()
-    {
-        return nameof(ProgressRing);
-    }
-
-    protected override string GetNameCore()
-    {
-        string? nameCore = base.GetNameCore();
-
-        if (Owner is ProgressRing.ProgressRing { IsActive: true })
+        public ProgressRingAutomationPeer(ProgressRing.ProgressRing owner)
+            : base(owner)
         {
-            return nameof(ProgressRing.ProgressRing.IsActive) + nameCore;
         }
 
-        return nameCore!;
-    }
+        protected override string GetClassNameCore()
+        {
+            return nameof(ProgressRing);
+        }
 
-    protected override AutomationControlType GetAutomationControlTypeCore()
-    {
-        return AutomationControlType.ProgressBar;
+        protected override string GetNameCore()
+        {
+            string? nameCore = base.GetNameCore();
+
+            if (Owner is ProgressRing.ProgressRing { IsActive: true })
+            {
+                return nameof(ProgressRing.ProgressRing.IsActive) + nameCore;
+            }
+
+            return nameCore!;
+        }
+
+        protected override AutomationControlType GetAutomationControlTypeCore()
+        {
+            return AutomationControlType.ProgressBar;
+        }
     }
 }

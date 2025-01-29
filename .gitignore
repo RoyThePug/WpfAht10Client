@@ -15,3 +15,5 @@ _ReSharper*/
 # Visual Studio 2015 cache/options directory
 .vs/
 XQDAL.xml
+Aht10.Tests/UITests/StatisticsCalculatorTests.cs
+Aht10.Tests/Domain.Tests/ServiceTests.cs

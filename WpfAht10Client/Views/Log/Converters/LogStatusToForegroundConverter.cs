@@ -1,4 +1,5 @@
-﻿using Aht10.Domain.Enums;
+﻿using System;
+using Aht10.Domain.Enums;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;

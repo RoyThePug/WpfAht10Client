@@ -1,4 +1,5 @@
-﻿using Aht10.Domain.Services;
+﻿using System;
+using Aht10.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using Aht10.Domain.Services.Measurement;
@@ -31,7 +32,7 @@ namespace WpfAht10Client
             // });
             services.AddSingleton<IMeasurementService, MeasurementService>();
             services.AddTransient<IPlottingDataService, PlottingDataService>();
-            services.AddSingleton<PlottingViewModel>();
+            services.AddTransient<PlottingViewModel>();
             services.AddSingleton<LoginViewModel>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<MainWindow>();

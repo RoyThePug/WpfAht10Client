@@ -22,14 +22,11 @@ namespace Aht10.Domain.Services.Measurement
 
         #endregion
 
-        public string Url { get; }
         public event EventHandler<MeteorologicalEventArgs>? OnReceiveData;
         public event EventHandler<VoltageEventArgs>? OnReceiveVoltage;
 
         public MeasurementService(IHttpClientFactory httpClientFactory)
         {
-            Url = "http://192.168.0.7:8089";
-
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 
             _hubConnection = new HubConnectionBuilder().WithUrl($"{Constants.Url}/connectionservice")
@@ -89,7 +86,6 @@ namespace Aht10.Domain.Services.Measurement
             }
         }
 
-
         public async Task<bool> CloseAsync()
         {
             try
@@ -114,7 +110,7 @@ namespace Aht10.Domain.Services.Measurement
             {
                 var client = _httpClientFactory.CreateClient();
 
-                var response = await client.GetAsync(Url);
+                var response = await client.GetAsync(Constants.Url);
 
                 response.EnsureSuccessStatusCode();
 
@@ -130,9 +126,9 @@ namespace Aht10.Domain.Services.Measurement
         {
             try
             {
-                var client = _httpClientFactory.CreateClient(Url);
+                var client = _httpClientFactory.CreateClient(Constants.Url);
 
-                var response = await client.GetAsync(Url + $"/get-measurement-byDate/{dateId}");
+                var response = await client.GetAsync(Constants.Url + $"/get-measurement-byDate/{dateId}");
 
                 response.EnsureSuccessStatusCode();
 
@@ -155,7 +151,7 @@ namespace Aht10.Domain.Services.Measurement
             {
                 var client = _httpClientFactory.CreateClient();
 
-                var response = await client.GetAsync(Url + "/measurements");
+                var response = await client.GetAsync(Constants.Url + "/measurements");
 
                 response.EnsureSuccessStatusCode();
 
@@ -174,7 +170,7 @@ namespace Aht10.Domain.Services.Measurement
             {
                 var client = _httpClientFactory.CreateClient();
 
-                return await client.GetFromJsonAsync<MeasurementModel>(Url + $"/get-measurementInfo-byDate/{date.ToString("yyyy-MM-dd HH:mm:ss")}");
+                return await client.GetFromJsonAsync<MeasurementModel>(Constants.Url + $"/get-measurementInfo-byDate/{date.ToString("yyyy-MM-dd HH:mm:ss")}");
             }
             catch (Exception)
             {

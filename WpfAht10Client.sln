@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aht10CustomControlLibrary",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aht10.Domain", "Aht10.Domain\Aht10.Domain.csproj", "{DA73A4F3-10F4-4DB2-9FB5-0E91F7A1A1DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests", "UITests\UITests.csproj", "{21D934A0-A918-4B78-8559-96EC700FBD4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aht10.Tests", "Aht10.Tests\Aht10.Tests.csproj", "{21D934A0-A918-4B78-8559-96EC700FBD4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,8 +11,7 @@
         <ResourceDictionary Source="UcMetrologicalDataTheme.xaml" />
     </UserControl.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type metrologicalData:UcMetrologicalData}}}"
-                  Margin="5">
+        <DataGrid Margin="5" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type metrologicalData:UcMetrologicalData}}}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Time" Width="*">
                     <DataGridTemplateColumn.CellTemplate>

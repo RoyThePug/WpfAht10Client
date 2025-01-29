@@ -1,34 +1,35 @@
 ﻿using System.Collections;
 using System.Windows;
 
-namespace WpfAht10Client.Views.MetrologicalData;
-
-public partial class UcMetrologicalData
+namespace WpfAht10Client.Views.MetrologicalData
 {
-    #region Dependency Properties
-
-    public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-        nameof(ItemsSource), typeof(IEnumerable), typeof(UcMetrologicalData), new PropertyMetadata(default(IEnumerable)));
-
-    public IEnumerable ItemsSource
+    public partial class UcMetrologicalData
     {
-        get => (IEnumerable) GetValue(ItemsSourceProperty);
-        set => SetValue(ItemsSourceProperty, value);
-    }
+        #region Dependency Properties
 
-    public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-        nameof(ItemTemplate), typeof(DataTemplate), typeof(UcMetrologicalData), new PropertyMetadata(default(DataTemplate)));
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+            nameof(ItemsSource), typeof(IEnumerable), typeof(UcMetrologicalData), new PropertyMetadata(default(IEnumerable)));
 
-    public DataTemplate ItemTemplate
-    {
-        get => (DataTemplate) GetValue(ItemTemplateProperty);
-        set => SetValue(ItemTemplateProperty, value);
-    }
+        public IEnumerable ItemsSource
+        {
+            get => (IEnumerable) GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
 
-    #endregion
+        public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
+            nameof(ItemTemplate), typeof(DataTemplate), typeof(UcMetrologicalData), new PropertyMetadata(default(DataTemplate)));
 
-    public UcMetrologicalData()
-    {
-        InitializeComponent();
+        public DataTemplate ItemTemplate
+        {
+            get => (DataTemplate) GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
+        }
+
+        #endregion
+
+        public UcMetrologicalData()
+        {
+            InitializeComponent();
+        }
     }
 }

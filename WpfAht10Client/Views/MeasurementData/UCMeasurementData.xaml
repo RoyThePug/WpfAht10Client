@@ -15,7 +15,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <DataGrid x:Name="DataGrid" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}"
+        <DataGrid x:Name="DataGrid" AutomationProperties.AutomationId="MeasurementDataGrid"
+                  ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}"
                   SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type measurementData:UCMeasurementData}}}"
                   Margin="5">                    
             <DataGrid.Columns>
